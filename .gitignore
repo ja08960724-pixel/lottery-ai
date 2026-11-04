@@ -1,0 +1,10 @@
+.venv/
+build/
+dist/
+__pycache__/
+*.spec
+data/
+exports/
+logs/
+verification/
+verification_output/

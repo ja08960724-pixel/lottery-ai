@@ -1,0 +1,36 @@
+name: Windows portable build
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          architecture: x64
+      - name: Build and validate portable EXE
+        shell: pwsh
+        run: ./build_windows.ps1
+      - name: Upload portable application
+        uses: actions/upload-artifact@v4
+        with:
+          name: Lottery539-Windows-x64
+          path: dist/Lottery539_Windows_Portable.zip
+          if-no-files-found: error
+          retention-days: 90
+      - name: Upload validation logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Windows-validation
+          path: |
+            dist/*json
+            dist/*txt
+          if-no-files-found: ignore
