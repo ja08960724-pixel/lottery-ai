@@ -1,0 +1,43 @@
+{
+  "source": "https://biga.com.tw/99567/ajax_history_F.php",
+  "request_method": "POST",
+  "form": {
+    "lotto": "F",
+    "datefrom": "2026/08/01",
+    "dateto": "2026/11/04",
+    "disporder": "D"
+  },
+  "retrieved": "2026-11-04",
+  "draw_timezone": "America/Los_Angeles",
+  "rows": 95,
+  "first": {
+    "period": "011956",
+    "date": "2026-08-01",
+    "numbers": [
+      2,
+      15,
+      21,
+      25,
+      29
+    ],
+    "source": "Biga：https://biga.com.tw/99567/ajax_history_F.php",
+    "status": "單一來源，尚未交叉驗證",
+    "draw_timezone": "America/Los_Angeles"
+  },
+  "last": {
+    "period": "012050",
+    "date": "2026-11-03",
+    "numbers": [
+      5,
+      17,
+      19,
+      24,
+      31
+    ],
+    "source": "Biga：https://biga.com.tw/99567/ajax_history_F.php",
+    "status": "單一來源，尚未交叉驗證",
+    "draw_timezone": "America/Los_Angeles"
+  },
+  "raw_sha256": "709c9dd0a920807b0007710e8d2756db6dca431b9f8c8f7a237f5cd7707fd5ac",
+  "manual_latest_crosscheck": "California Lottery official webpage: Draw 12050, Nov 3 2026, 5 17 19 24 31; remaining rows single source"
+}
