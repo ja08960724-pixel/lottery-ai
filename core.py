@@ -4,6 +4,7 @@ import csv, json, sqlite3, html
 from pathlib import Path
 from datetime import date, datetime
 from collections import Counter
+from contextlib import contextmanager
 from zoneinfo import ZoneInfo
 
 def now():
@@ -78,7 +79,14 @@ def import_csv(path):
 
 class Store:
     def __init__(self,root): self.root=Path(root); self.path=self.root/'data'/'history.sqlite3';self.init()
-    def db(self): return sqlite3.connect(self.path,timeout=10)
+    @contextmanager
+    def db(self):
+        connection=sqlite3.connect(self.path,timeout=10)
+        try:
+            with connection:
+                yield connection
+        finally:
+            connection.close()
     def init(self):
         for n in ('data','exports','logs'): (self.root/n).mkdir(parents=True,exist_ok=True)
         with self.db() as c:
