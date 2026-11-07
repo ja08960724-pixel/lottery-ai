@@ -38,9 +38,9 @@ class MultiWindow(unittest.TestCase):
             reopened=Store(td);saved=reopened.latest_snapshot();self.assertEqual(saved['kind'],'multi_window_v2')
             with reopened.db() as c:self.assertEqual(c.execute('select count(*) from snapshots').fetchone()[0],2)
             cp,hp,jp=export_many(saved,Path(td)/'exports');self.assertTrue(cp.read_bytes().startswith(b'\xef\xbb\xbf'))
-            text=hp.read_text()
+            text=hp.read_text(encoding="utf-8")
             for size in WINDOWS:self.assertIn(f'{size}期分析',text)
-            self.assertEqual(json.loads(jp.read_text())['windows'][3]['analysis']['size'],300)
+            self.assertEqual(json.loads(jp.read_text(encoding="utf-8"))['windows'][3]['analysis']['size'],300)
     def test_overlap_agreement(self):
         r=analyze_many(fixture(330));expected=Counter(n for w in r['windows'] for n in w['analysis']['merged'])
         self.assertEqual(r['agreement'],{str(n):expected[n] for n in sorted(expected)})
