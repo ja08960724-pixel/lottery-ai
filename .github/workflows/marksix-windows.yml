@@ -1,0 +1,37 @@
+name: Mark Six Windows portable build
+on:
+  push:
+    branches: [main]
+    paths: ['marksix/**', '.github/workflows/marksix-windows.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          architecture: x64
+      - name: Build and validate Mark Six portable EXE
+        shell: pwsh
+        run: ./marksix/build_windows.ps1
+      - name: Upload portable application
+        uses: actions/upload-artifact@v4
+        with:
+          name: MarkSix-MultiWindow-Windows-x64
+          path: marksix/dist/MarkSix_MultiWindow_Windows_Portable.zip
+          if-no-files-found: error
+          retention-days: 90
+      - name: Upload validation logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: MarkSix-MultiWindow-Windows-validation
+          path: |
+            marksix/dist/*json
+            marksix/dist/*txt
+          if-no-files-found: ignore
