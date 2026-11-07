@@ -1,0 +1,37 @@
+name: Fantasy 5 Short Windows build
+on:
+  push:
+    branches: [main]
+    paths: ['fantasy_short/**', '.github/workflows/fantasy-short-windows.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          architecture: x64
+      - name: Build and validate Fantasy 5 portable EXE
+        shell: pwsh
+        run: ./fantasy_short/build_windows.ps1
+      - name: Upload portable application
+        uses: actions/upload-artifact@v4
+        with:
+          name: Fantasy5-Short-Windows-x64
+          path: fantasy_short/dist/Fantasy5_20_50_100_Windows_Portable.zip
+          if-no-files-found: error
+          retention-days: 90
+      - name: Upload validation logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Fantasy5-Short-Windows-validation
+          path: |
+            fantasy_short/dist/*json
+            fantasy_short/dist/*txt
+          if-no-files-found: ignore
